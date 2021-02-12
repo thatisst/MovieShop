@@ -7,8 +7,10 @@
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Helpers\" />
-    <Folder Include="Repositories\" />
-    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MovieShop.Core\MovieShop.Core.csproj" />
   </ItemGroup>
 
 </Project>

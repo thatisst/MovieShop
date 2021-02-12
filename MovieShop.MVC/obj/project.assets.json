@@ -1,11 +1,49 @@
 {
   "version": 3,
   "targets": {
-    "net5.0": {}
+    "net5.0": {
+      "MovieShop.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.1",
+        "compile": {
+          "bin/placeholder/MovieShop.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MovieShop.Core.dll": {}
+        }
+      },
+      "MovieShop.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.1",
+        "dependencies": {
+          "MovieShop.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MovieShop.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MovieShop.Infrastructure.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "MovieShop.Core/1.0.0": {
+      "type": "project",
+      "path": "../MovieShop.Core/MovieShop.Core.csproj",
+      "msbuildProject": "../MovieShop.Core/MovieShop.Core.csproj"
+    },
+    "MovieShop.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../MovieShop.Infrastructure/MovieShop.Infrastructure.csproj",
+      "msbuildProject": "../MovieShop.Infrastructure/MovieShop.Infrastructure.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net5.0": []
+    "net5.0": [
+      "MovieShop.Core >= 1.0.0",
+      "MovieShop.Infrastructure >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\Stell\\.nuget\\packages\\": {}
@@ -33,7 +71,14 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Stell\\source\\repos\\MovieShop\\MovieShop.Core\\MovieShop.Core.csproj": {
+              "projectPath": "C:\\Users\\Stell\\source\\repos\\MovieShop\\MovieShop.Core\\MovieShop.Core.csproj"
+            },
+            "C:\\Users\\Stell\\source\\repos\\MovieShop\\MovieShop.Infrastructure\\MovieShop.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\Stell\\source\\repos\\MovieShop\\MovieShop.Infrastructure\\MovieShop.Infrastructure.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

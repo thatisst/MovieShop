@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MovieShop.Core.RepositoryInterfaces;
+using MovieShop.Core.ServiceInterfaces;
+using MovieShop.Infrastructure.Repositories;
+using MovieShop.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +28,14 @@ namespace MovieShop.MVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            // Regestering our Classes for interfaces to be used across our application
+            // .NET Core has built-in DI
+            // .NET Framework did not have built-in DI, 
+            //      we had to download 3rd party package or IOC, like Ninject, Autofac ...
+
+            //every time you see 'IMovieService', RUN 'MovieService'
+            services.AddTransient<IMovieService, MovieService>();
+            services.AddTransient<IMovieRepository, MovieRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

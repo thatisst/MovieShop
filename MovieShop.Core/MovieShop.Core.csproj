@@ -5,13 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\" />
     <Folder Include="Models\Response\" />
     <Folder Include="Models\Request\" />
     <Folder Include="Helpers\" />
     <Folder Include="Exceptions\" />
-    <Folder Include="ServiceInterfaces\" />
-    <Folder Include="RepositoryInterfaces\" />
   </ItemGroup>
 
 </Project>
