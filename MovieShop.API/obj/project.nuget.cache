@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "ysSL8bXq9Pcpq3X/1W84/uC0+D+XTFLiwfl7s2JznH/oQCOxeDNZZkxqW9VBHC1mvjQV5wyk2KNjO8QdMyJ+Pw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Stell\\source\\repos\\MovieShop\\MovieShop.API\\MovieShop.API.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Stell\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\Stell\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\Stell\\.nuget\\packages\\swashbuckle.aspnetcore\\5.6.3\\swashbuckle.aspnetcore.5.6.3.nupkg.sha512",
+    "C:\\Users\\Stell\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\5.6.3\\swashbuckle.aspnetcore.swagger.5.6.3.nupkg.sha512",
+    "C:\\Users\\Stell\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\5.6.3\\swashbuckle.aspnetcore.swaggergen.5.6.3.nupkg.sha512",
+    "C:\\Users\\Stell\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\5.6.3\\swashbuckle.aspnetcore.swaggerui.5.6.3.nupkg.sha512"
+  ],
+  "logs": []
+}
