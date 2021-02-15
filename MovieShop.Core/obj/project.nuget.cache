@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "/No4dl8ilrprOBMqwiuHF98kyL2gGzYjgkp/gSBq7D2lPSN6Nyw1kYv6ptGw7h0um42eKKczBpTrZR/oqlmg2Q==",
+  "dgSpecHash": "SxLsM2tGUO/lQAhCAyj4+NOAsO7x7H2ozTLWk7GHPvhwhs68uLOdKAZuHQAwl+dzsw4lShktt6TtPqNuc2WgLA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Stell\\source\\repos\\MovieShop\\MovieShop.Core\\MovieShop.Core.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Stell\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
