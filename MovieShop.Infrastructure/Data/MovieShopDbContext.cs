@@ -21,6 +21,14 @@ namespace MovieShop.Infrastructure.Data
         {
             modelBuilder.Entity<Movie>(ConfigureMovie);
             modelBuilder.Entity<Trailer>(ConfigureTrailer);
+            //modelBuilder.Entity<Movie>().HasMany(m => m.Genres).WithMany(g => g.Movies).
+            //    UsingEntity<Dictionary<string, object>>("MovieGenre",
+            //                           ),;
+            //(N : N) Movie : Genre Relationship
+            modelBuilder.Entity<Movie>().HasMany(m => m.Genres).WithMany(g => g.Movies)
+                .UsingEntity<Dictionary<string, object>>("MovieGenre",
+                    m => m.HasOne<Genre>().WithMany().HasForeignKey("GenreId"),
+                    g => g.HasOne<Movie>().WithMany().HasForeignKey("MovieId"));
         }
 
         private void ConfigureTrailer(EntityTypeBuilder<Trailer> builder)

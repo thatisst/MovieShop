@@ -29,5 +29,6 @@ namespace MovieShop.Core.Entities
         //navigate from the Movie table to the Trailer table
         //1 Movie : N trailers
         public ICollection<Trailer> Trailers { get; set; }
+        public ICollection<Genre> Genres { get; set; }
     }
 }
