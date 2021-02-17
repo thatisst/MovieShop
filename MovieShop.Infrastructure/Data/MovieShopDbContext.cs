@@ -41,11 +41,12 @@ namespace MovieShop.Infrastructure.Data
                 c => c.HasOne<Movie>().WithMany().HasForeignKey("MovieId"));
 
             modelBuilder.Entity<Movie>().HasMany(m => m.Reviews).WithOne(r => r.Movie)
-                .HasForeignKey(r => new { r.MovieId, r.UserId });
+                .HasForeignKey(r => r.MovieId);
+
+            modelBuilder.Entity<Review>().HasKey(r => new { r.UserId, r.MovieId });
+            //modelBuilder.Entity<Review>().HasNoKey();
 
             modelBuilder.Entity<Cast>(ConfigureCast);
-            modelBuilder.Entity<Review>()
-                .HasNoKey();
         }
 
 
