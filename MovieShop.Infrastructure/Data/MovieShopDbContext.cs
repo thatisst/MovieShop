@@ -29,6 +29,31 @@ namespace MovieShop.Infrastructure.Data
                 .UsingEntity<Dictionary<string, object>>("MovieGenre",
                     m => m.HasOne<Genre>().WithMany().HasForeignKey("GenreId"),
                     g => g.HasOne<Movie>().WithMany().HasForeignKey("MovieId"));
+
+            modelBuilder.Entity<User>().HasMany(u => u.Roles).WithMany(g => g.Users)
+                .UsingEntity<Dictionary<string, object>>("UserRole",
+                u => u.HasOne<Role>().WithMany().HasForeignKey("RoleId"),
+                r => r.HasOne<User>().WithMany().HasForeignKey("UserId"));
+
+            modelBuilder.Entity<Movie>().HasMany(m => m.Casts).WithMany(c => c.Movies)
+                .UsingEntity<Dictionary<string, object>>("MovieCast",
+                m => m.HasOne<Cast>().WithMany().HasForeignKey("CastId"),
+                c => c.HasOne<Movie>().WithMany().HasForeignKey("MovieId"));
+
+            modelBuilder.Entity<Movie>().HasMany(m => m.Reviews).WithOne(r => r.Movie)
+                .HasForeignKey(r => new { r.MovieId, r.UserId });
+
+            modelBuilder.Entity<Cast>(ConfigureCast);
+            modelBuilder.Entity<Review>()
+                .HasNoKey();
+        }
+
+
+        private void ConfigureCast(EntityTypeBuilder<Cast> builder)
+        {
+            builder.ToTable("Cast");
+            builder.Property(c => c.Name).HasMaxLength(128);
+            builder.Property(c => c.ProfilePath).HasMaxLength(2084);
         }
 
         private void ConfigureTrailer(EntityTypeBuilder<Trailer> builder)
@@ -71,6 +96,12 @@ namespace MovieShop.Infrastructure.Data
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Trailer> Trailers { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Cast> Casts { get; set; }
+        public DbSet<Purchase> Purchases { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
 
     }

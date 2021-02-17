@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieShop.Infrastructure.Data;
 
 namespace MovieShop.Infrastructure.Migrations
 {
     [DbContext(typeof(MovieShopDbContext))]
-    partial class MovieShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210217044505_MovieCast")]
+    partial class MovieCast
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,28 +77,6 @@ namespace MovieShop.Infrastructure.Migrations
                     b.ToTable("Cast");
                 });
 
-            modelBuilder.Entity("MovieShop.Core.Entities.Favorite", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Favorite");
-                });
-
             modelBuilder.Entity("MovieShop.Core.Entities.Genre", b =>
                 {
                     b.Property<int>("Id")
@@ -156,9 +136,6 @@ namespace MovieShop.Infrastructure.Migrations
                         .HasColumnType("decimal(5,2)")
                         .HasDefaultValue(9.9m);
 
-                    b.Property<int?>("PurchaseId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("ReleaseDate")
                         .HasColumnType("datetime2");
 
@@ -188,59 +165,7 @@ namespace MovieShop.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PurchaseId");
-
                     b.ToTable("Movie");
-                });
-
-            modelBuilder.Entity("MovieShop.Core.Entities.Purchase", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("PurchaseDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("PurchaseNumber")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Purchase");
-                });
-
-            modelBuilder.Entity("MovieShop.Core.Entities.Review", b =>
-                {
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Rating")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("ReviewText")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("MovieId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Review");
                 });
 
             modelBuilder.Entity("MovieShop.Core.Entities.Role", b =>
@@ -377,62 +302,6 @@ namespace MovieShop.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MovieShop.Core.Entities.Favorite", b =>
-                {
-                    b.HasOne("MovieShop.Core.Entities.Movie", "Movie")
-                        .WithMany()
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MovieShop.Core.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Movie");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("MovieShop.Core.Entities.Movie", b =>
-                {
-                    b.HasOne("MovieShop.Core.Entities.Purchase", null)
-                        .WithMany("Movies")
-                        .HasForeignKey("PurchaseId");
-                });
-
-            modelBuilder.Entity("MovieShop.Core.Entities.Purchase", b =>
-                {
-                    b.HasOne("MovieShop.Core.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("MovieShop.Core.Entities.Review", b =>
-                {
-                    b.HasOne("MovieShop.Core.Entities.Movie", "Movie")
-                        .WithMany()
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MovieShop.Core.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Movie");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("MovieShop.Core.Entities.Trailer", b =>
                 {
                     b.HasOne("MovieShop.Core.Entities.Movie", "Movie")
@@ -462,11 +331,6 @@ namespace MovieShop.Infrastructure.Migrations
             modelBuilder.Entity("MovieShop.Core.Entities.Movie", b =>
                 {
                     b.Navigation("Trailers");
-                });
-
-            modelBuilder.Entity("MovieShop.Core.Entities.Purchase", b =>
-                {
-                    b.Navigation("Movies");
                 });
 #pragma warning restore 612, 618
         }
