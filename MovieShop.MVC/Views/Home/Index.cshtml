@@ -1,8 +1,27 @@
-﻿@{
+﻿@*binding, we cannot have multiple models*@
+@model IEnumerable<MovieShop.Core.Models.Response.MovieCardResponseModel>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="rounded">
+    <div class="container-fluid bg-light">
+        <div class="row">
+            @*loop through 25 records*@
+            @* 'Model' is a strongly typed object of '@model' *@
+            @*sending movie to partial view *@
+
+            @foreach (var movie in Model)
+            {
+                <div class="col-6 col-lg-3 col-sm-4 col-xl-2">
+                    <partial name="_MovieCard" model="movie" />
+                </div>
+            }
+        </div>
+    </div>
 </div>
+
+
+
+

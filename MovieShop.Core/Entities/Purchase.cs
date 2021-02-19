@@ -16,6 +16,6 @@ namespace MovieShop.Core.Entities
         public int MovieId { get; set; }
         //1 : 1
         public User User { get; set; }
-        public ICollection<Movie> Movies { get; set; } // 1:N
+        public Movie Movies { get; set; } // 1:N
     }
 }

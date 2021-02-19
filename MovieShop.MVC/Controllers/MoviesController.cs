@@ -17,7 +17,6 @@ namespace MovieShop.MVC.Controllers
         public MoviesController(IMovieService movieService)
         {
             _movieService = movieService;
-            _movieService = movieService;
         }
         //MovieService movieService = new MovieService();
 
@@ -28,18 +27,19 @@ namespace MovieShop.MVC.Controllers
         }
 
         [HttpGet]
-        public ActionResult Details()
+        public ActionResult Details(int id)
         {
-            //By defaul when u have return view()
-            // u can change that to views of other names
-            //return View("Testing");
-            return View();
+
+            // call the Movie service that will call Movie Repository
+            //return models not entities
+            var movieDetails = _movieService.GetMovieById(id);
+            return View(movieDetails);
         }
 
         [HttpGet]
         public IActionResult TopRevenueMovies()
         {
-            var movies = _movieService.GetHighestGrossingMovies();
+            //var movies = _movieService.GetHighestGrossingMovies();
             return View();
         }
 

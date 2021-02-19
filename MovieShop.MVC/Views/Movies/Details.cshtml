@@ -1,1 +1,101 @@
-﻿<h1>Details page</h1>
+﻿@model MovieShop.Core.Models.Response.MovieDetailsResponseModel
+
+<div class="bg-light">
+    <div class="container">
+
+        <div class="jumbotron">
+            <div class="row">
+                <div class="col-4 ">
+
+                    <img src="@Model.PosterUrl" alt="@Model.Title" class="rounded img-fluid" />
+                </div>
+
+                <div class="col-4">
+                    <h1>@Model.Title</h1>
+                    <h5>@Model.Tagline</h5>
+                    <h6>@Model.RunTime m | @Model.ReleaseDate.Value.ToString("yyyy") </h6>
+                    @*@foreach (var genre in Model.Genres)
+                    {
+                        <span class="badge badge-dark badge-pill"> genre</span>
+                    }*@
+                    <h3><span class="badge badge-warning badge-pill"> Rating: 8.3 </span></h3>
+                    <p>
+                        @Model.Overview
+                    </p>
+                </div>
+
+                <div class="col-4">
+                    <ul class="list-group list">
+                        <li class="list-group-item d-flex justify-content-start align-items-center">
+                            <button class="btn btn-dark btn-outline-light btn-block">
+                                REVIEW
+                            </button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-start align-items-center">
+                            <button class="btn btn-dark btn-outline-light btn-block">
+                                TRAILER
+                            </button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-start align-items-center">
+                            <button class="btn btn-light btn-block">
+                                BUY @Model.Price
+                            </button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-start align-items-center">
+                            <button class="btn btn-light btn-block">
+                                WATCH MOVIE
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+
+
+            
+
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                <h3>
+                    MOVIE FACTS
+                </h3>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-start align-items-center">
+                        Release Date
+                        <span class="badge badge-dark badge-pill"> @Model.ReleaseDate.Value.ToShortDateString() </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-start align-items-center">
+                        Run Time
+                        <span class="badge badge-dark badge-pill"> @Model.RunTime m</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-start align-items-center">
+                        Box Office
+                        <span class="badge badge-dark badge-pill"> $ @Model.Revenue</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-start align-items-center">
+                        Budget
+                        <span class="badge badge-dark badge-pill"> $ @Model.Budget</span>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="col-6">
+                <h3>
+                    CAST
+                </h3>
+                <table class="table">
+                    <tr class="">
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    
+</div>

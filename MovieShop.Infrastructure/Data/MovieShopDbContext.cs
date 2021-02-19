@@ -11,20 +11,15 @@ namespace MovieShop.Infrastructure.Data
 {
     public class MovieShopDbContext : DbContext
     {
-        public MovieShopDbContext(DbContextOptions<MovieShopDbContext> options) : base(options) //NEW
+        public MovieShopDbContext(DbContextOptions<MovieShopDbContext> options) : base(options) 
         {
         }
 
-        // 'vitual' - can be overridden
-        // Action<EntityTypeBuilder<TEntity>> buildAction, return null
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Movie>(ConfigureMovie);
             modelBuilder.Entity<Trailer>(ConfigureTrailer);
-            //modelBuilder.Entity<Movie>().HasMany(m => m.Genres).WithMany(g => g.Movies).
-            //    UsingEntity<Dictionary<string, object>>("MovieGenre",
-            //                           ),;
-            //(N : N) Movie : Genre Relationship
+
             modelBuilder.Entity<Movie>().HasMany(m => m.Genres).WithMany(g => g.Movies)
                 .UsingEntity<Dictionary<string, object>>("MovieGenre",
                     m => m.HasOne<Genre>().WithMany().HasForeignKey("GenreId"),
@@ -35,10 +30,7 @@ namespace MovieShop.Infrastructure.Data
                 u => u.HasOne<Role>().WithMany().HasForeignKey("RoleId"),
                 r => r.HasOne<User>().WithMany().HasForeignKey("UserId"));
 
-            modelBuilder.Entity<Movie>().HasMany(m => m.Casts).WithMany(c => c.Movies)
-                .UsingEntity<Dictionary<string, object>>("MovieCast",
-                m => m.HasOne<Cast>().WithMany().HasForeignKey("CastId"),
-                c => c.HasOne<Movie>().WithMany().HasForeignKey("MovieId"));
+            modelBuilder.Entity<Movie>().HasMany(m => m.MovieCasts).WithOne(c => c.Movie);
 
             modelBuilder.Entity<Movie>().HasMany(m => m.Reviews).WithOne(r => r.Movie)
                 .HasForeignKey(r => r.MovieId);
@@ -47,6 +39,8 @@ namespace MovieShop.Infrastructure.Data
             //modelBuilder.Entity<Review>().HasNoKey();
 
             modelBuilder.Entity<Cast>(ConfigureCast);
+
+            modelBuilder.Entity<MovieCast>().HasKey(mc => new { mc.MovieId, mc.CastId, mc.Character });
         }
 
 
@@ -63,12 +57,6 @@ namespace MovieShop.Infrastructure.Data
             builder.HasKey(t => t.Id);
             builder.Property(t => t.TrailerUrl).HasMaxLength(2084);
             builder.Property(t => t.Name).HasMaxLength(2084);
-
-            //In Package Manager Console
-            //add-migration TrailerTable
-            // missing PK, do something before update-database
-            //update-database
-
         }
 
         private void ConfigureMovie(EntityTypeBuilder<Movie> builder)
@@ -87,10 +75,6 @@ namespace MovieShop.Infrastructure.Data
             builder.Property(m => m.OriginalLanguage).HasMaxLength(64);
             builder.Property(m => m.Price).HasColumnType("decimal(5, 2)").HasDefaultValue(9.9m);
             builder.Property(m => m.CreatedDate).HasDefaultValueSql("getdate()");
-
-            //In Package Manager Console
-            //add-migration MovieTable
-            //update-database
         }
 
         // // Many DbSets, they are represented as properties - "typo? should be 'table'?"

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MovieShop.Core.Entities
+namespace MovieShop.Core.Models.Response
 {
-    public class Movie
+    public class MovieDetailsResponseModel
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -20,18 +20,29 @@ namespace MovieShop.Core.Entities
         public DateTime? ReleaseDate { get; set; }
         public int? RunTime { get; set; }
         public decimal? Price { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public DateTime? UpdatedDate { get; set; }
-        public string UpdatedBy { get; set; }
-        public string CreatedBy { get; set; }
 
-        //navigation property
-        //navigate from the Movie table to the Trailer table
-        //1 Movie : N trailers
-        public ICollection<Trailer> Trailers { get; set; }
-        public ICollection<Genre> Genres { get; set; }
-        public ICollection<MovieCast> MovieCasts { get; set; }
-        public ICollection<Review> Reviews { get; set; }
+        public List<GenreModel> Genres { get; set; }
+        public List<CastResponseModel> Casts { get; set; }
 
+    }
+
+    public class GenreModel
+    {
+        public int Id { get; set; }
+
+        //[MaxLength(24)] // no need here
+        public string Name { get; set; }
+    }
+
+    public class CastResponseModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Gender { get; set; }
+        public string TmdbUrl { get; set; }
+        public string ProfilePath { get; set; }
+
+
+        public string Character { get; set; }
     }
 }

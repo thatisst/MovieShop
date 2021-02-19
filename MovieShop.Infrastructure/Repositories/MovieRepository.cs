@@ -1,4 +1,5 @@
-﻿using MovieShop.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieShop.Core.Entities;
 using MovieShop.Core.RepositoryInterfaces;
 using MovieShop.Infrastructure.Data;
 using System;
@@ -24,13 +25,13 @@ namespace MovieShop.Infrastructure.Repositories
 
         public IEnumerable<Movie> GetTopRevenueMovies()
         {
-            return _dbContext.Movies.OrderByDescending(m => m.Revenue).Take(20);
+            return _dbContext.Movies.OrderByDescending(m => m.Revenue).Take(25);
         }
 
         public override Movie GetByIdAsyc(int id)
         {
-            return _dbContext.Movies.FirstOrDefault(m => m.Id == id);
-            //return base.GetByIdAsyc(id);
+            return _dbContext.Movies.Include(m => m.MovieCasts).ThenInclude(m => m.Cast).Include(m => m.Genres).FirstOrDefault(m => m.Id == id);
+            //return _dbContext.Movies.FirstOrDefault(m => m.Id == id);
         }
     }
 }

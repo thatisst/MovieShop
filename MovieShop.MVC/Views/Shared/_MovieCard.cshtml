@@ -1,0 +1,16 @@
+﻿@*Razor Syntax*@
+@model MovieShop.Core.Models.Response.MovieCardResponseModel
+
+@*When you click on the poster, go to MovieController, 
+    Details action method and sen movie id*@
+
+<div class="card mb-4 shadow bg-light">
+    <a asp-controller="Movies" asp-action="Details" asp-route-id="@Model.Id">
+
+        <img src="@Model.PosterUrl" alt="@Model.Title" class="img-fluid rounded "/>
+
+    </a>
+</div>
+
+    
+

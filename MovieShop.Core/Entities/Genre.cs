@@ -18,6 +18,4 @@ namespace MovieShop.Core.Entities
 
     }
 
-    //add-migration UpdateGenreTable
-    //update-database
 }

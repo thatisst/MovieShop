@@ -1,4 +1,5 @@
 ﻿using MovieShop.Core.Entities;
+using MovieShop.Core.Models.Response;
 using MovieShop.Core.RepositoryInterfaces;
 using MovieShop.Core.ServiceInterfaces;
 using System;
@@ -8,26 +9,12 @@ using System.Text;
 namespace MovieShop.Infrastructure.Services
 {
     public class MovieService : IMovieService
-    {
-        /*
-         * Dependency Injection can be done in 3 ways
-         * 1. Constructor Injection
-         * 2. Method Injection
-         * 3. Property Injection 
-         * */
+    {       
+        private readonly IMovieRepository _movieRepository;
 
-        //cannot compile
-        //MovieService movieservice = new MovieService()
-        //can compile in other classes
-        //MovieService movieservice = new MovieService(new MovieRepository())
-
-        private readonly IMovieRepository _movieRepository;//cannot change after initialization
-        private readonly int x; // readonly - Do not wish anyone to give a new type to 
         public MovieService(IMovieRepository movieRepository)
-        {// this construction replace the default construction
-            //constructor injection
+        {
             _movieRepository = movieRepository;
-            x = 10; // only in constructor
         }
         public IEnumerable<Movie> GetHighestGrossingMovies()
         {
@@ -36,17 +23,50 @@ namespace MovieShop.Infrastructure.Services
             return movies;
         }
 
-        //// IMovieRepository interface
-        //// should depend on Interface, not a concrete class
-        ////MovieRepository repo = new MovieRepository(); EF
-        ////MovieRepository2 repo2 = new MovieRepository2(); Dapper
-        //public List<Movie> GetTopRevenueMovies()
-        //{
-        //    //talk with database through Repository and get me top 20 movies
-        //    //talking to repository
-        //    // var movies = repo.GetMovies();
-        //    return new List<Movie>();
-        //}
+        public MovieDetailsResponseModel GetMovieById(int id)
+        {
+            var movieDetails = new MovieDetailsResponseModel();
+            var movie = _movieRepository.GetByIdAsyc(id);
+            //map movie entity to MovieDetailsResponseModel
+            movieDetails.Id = movie.Id;
+            movieDetails.Title = movie.Title;
+            movieDetails.Overview = movie.Overview;
+            movieDetails.Budget = movie.Budget;
+            movieDetails.ReleaseDate = movie.ReleaseDate;
+            movieDetails.PosterUrl = movie.PosterUrl;
+            movieDetails.RunTime = movie.RunTime;
+            movieDetails.Price = movie.Price;
+            movieDetails.Revenue = movie.Revenue;
+            movieDetails.ImdbUrl = movie.ImdbUrl;
+            movieDetails.TmdbUrl = movie.TmdbUrl;
+            movieDetails.OriginalLanguage = movie.OriginalLanguage;
+            movieDetails.Tagline = movie.Tagline;
+            //movieDetails.Genres = movie.Genres;
+            //movieDetails.Casts = movie.MovieCasts; //movie.MovieCasts return null
+
+
+            return movieDetails;
+        }
+
+        public IEnumerable<MovieCardResponseModel> GetTop25GrossingMovies()
+        {
+            var movies = _movieRepository.GetTopRevenueMovies();
+            var movieResponseModel = new List<MovieCardResponseModel>();
+            foreach (var movie in movies)
+            {
+                var movieCard = new MovieCardResponseModel
+                {
+                    Id = movie.Id,
+                    Title = movie.Title,
+                    PosterUrl = movie.PosterUrl,
+                    Revenue = movie.Revenue
+                };
+                movieResponseModel.Add(movieCard);
+            }
+            return movieResponseModel;
+        }
+
+        
     }
 
   

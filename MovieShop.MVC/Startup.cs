@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using MovieShop.Core.Entities;
 
 namespace MovieShop.MVC
 {
@@ -38,6 +39,11 @@ namespace MovieShop.MVC
             //every time you see 'IMovieService', RUN 'MovieService'
             services.AddTransient<IMovieService, MovieService>();
             services.AddTransient<IMovieRepository, MovieRepository>();
+
+            ////services.AddTransient<IGenreService, GenreService>();
+            ////services.AddTransient<>(); //todo
+            services.AddTransient<IGenreService, GenreService>();
+            services.AddTransient<IAsyncRepository<Genre>, EfRepository<Genre>>();
 
             services.AddDbContext<MovieShopDbContext>(option => 
                 option.UseSqlServer(Configuration.GetConnectionString("MovieShopDbConnection")));
