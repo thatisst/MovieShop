@@ -34,6 +34,7 @@ namespace MovieShop.Infrastructure.Services
             movieDetails.Budget = movie.Budget;
             movieDetails.ReleaseDate = movie.ReleaseDate;
             movieDetails.PosterUrl = movie.PosterUrl;
+            movieDetails.BackdropUrl = movie.BackdropUrl;
             movieDetails.RunTime = movie.RunTime;
             movieDetails.Price = movie.Price;
             movieDetails.Revenue = movie.Revenue;
@@ -41,9 +42,27 @@ namespace MovieShop.Infrastructure.Services
             movieDetails.TmdbUrl = movie.TmdbUrl;
             movieDetails.OriginalLanguage = movie.OriginalLanguage;
             movieDetails.Tagline = movie.Tagline;
-            //movieDetails.Genres = movie.Genres;
-            //movieDetails.Casts = movie.MovieCasts; //movie.MovieCasts return null
 
+            List<GenreModel> genreList = new List<GenreModel>();
+            foreach (var genre in movie.Genres)
+            {
+                genreList.Add(new GenreModel { Id = genre.Id, Name = genre.Name });
+            }
+            movieDetails.Genres = genreList;
+
+            List<CastResponseModel> movieCastList = new List<CastResponseModel>();
+            foreach (var movieCast in movie.MovieCasts)
+            {
+                movieCastList.Add(new CastResponseModel
+                {
+                    Id = movieCast.CastId,
+                    Name = movieCast.Cast.Name,
+                    ProfilePath = movieCast.Cast.ProfilePath,
+                    Character = movieCast.Character,
+                    Gender = movieCast.Cast.Gender
+                }); 
+            }
+            movieDetails.Casts = movieCastList;
 
             return movieDetails;
         }

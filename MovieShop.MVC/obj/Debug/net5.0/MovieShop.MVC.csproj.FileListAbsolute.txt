@@ -89,3 +89,4 @@ C:\Users\Stell\source\repos\MovieShop\MovieShop.MVC\bin\Debug\net5.0\runtimes\wi
 C:\Users\Stell\source\repos\MovieShop\MovieShop.MVC\bin\Debug\net5.0\MovieShop.Core.pdb
 C:\Users\Stell\source\repos\MovieShop\MovieShop.MVC\bin\Debug\net5.0\MovieShop.Infrastructure.pdb
 C:\Users\Stell\source\repos\MovieShop\MovieShop.MVC\obj\Debug\net5.0\Razor\Views\Shared\_MovieCard.cshtml.g.cs
+C:\Users\Stell\source\repos\MovieShop\MovieShop.MVC\obj\Debug\net5.0\Razor\Views\Shared\Components\Genres\Default.cshtml.g.cs
