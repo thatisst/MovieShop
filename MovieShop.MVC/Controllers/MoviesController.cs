@@ -27,12 +27,12 @@ namespace MovieShop.MVC.Controllers
         }
 
         [HttpGet]
-        public ActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
 
             // call the Movie service that will call Movie Repository
             //return models not entities
-            var movieDetails = _movieService.GetMovieById(id);
+            var movieDetails = await _movieService.GetMovieById(id);
             return View(movieDetails);
         }
 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MovieShop.MVC.Views.Shared.NewFolder1.NewFolder
+namespace MovieShop.MVC.Views.Shared.Components.Genres
 {
     public class GenresViewComponent : ViewComponent
     {
@@ -15,10 +15,10 @@ namespace MovieShop.MVC.Views.Shared.NewFolder1.NewFolder
             _genreService = genreService;
         }
 
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            var genres = _genreService.GetAllGenres();
-            //
+            var genres = await _genreService.GetAllGenres();
+            
             return View(genres);
         }
     }

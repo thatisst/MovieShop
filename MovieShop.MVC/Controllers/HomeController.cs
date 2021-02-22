@@ -21,10 +21,10 @@ namespace MovieShop.MVC.Controllers
             _movieService = movieService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
 
-            var topMovies = _movieService.GetTop25GrossingMovies();
+            var topMovies = await _movieService.GetTop25GrossingMovies();
             return View(topMovies);
         }
 
