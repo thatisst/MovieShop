@@ -15,6 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MovieShop.Core.Entities;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace MovieShop.MVC
 {
@@ -45,8 +46,25 @@ namespace MovieShop.MVC
             services.AddTransient<IGenreService, GenreService>();
             services.AddTransient<IAsyncRepository<Genre>, EfRepository<Genre>>();
 
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ICryptoService, CryptoService>();
+
             services.AddDbContext<MovieShopDbContext>(option => 
                 option.UseSqlServer(Configuration.GetConnectionString("MovieShopDbConnection")));
+
+            services.AddHttpContextAccessor();
+            //http context available in MVC only, so need to inject to Infrustructure
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
+                option =>
+                {
+                    option.Cookie.Name = "MovieShopAuthCookie";
+                    option.ExpireTimeSpan = TimeSpan.FromHours(2);
+                    option.LoginPath = "/Account/Login";
+                });
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +84,8 @@ namespace MovieShop.MVC
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthorization(); //!!  after routing
 
             app.UseAuthorization();
 

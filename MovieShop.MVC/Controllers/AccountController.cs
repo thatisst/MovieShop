@@ -1,65 +1,101 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieShop.Core.Models.Request;
+using MovieShop.Core.Models.Response;
+using MovieShop.Core.ServiceInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace MovieShop.MVC.Controllers
 {
     public class AccountController : Controller
     {
-        public IActionResult Index()
+        private readonly IUserService _userService;
+        public AccountController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Login()
         {
             return View();
         }
 
-        [HttpGet] // show the ampt page first
-        public async Task<IActionResult> Register()
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginRequestModel loginRequestModel, string returnUrl = null)
         {
-            return View();
-        }
-
-        [HttpPost] // show the ampt page first
-        public async Task<IActionResult> Register(UserRegisterRequestModel userRegisterRequestModel, string email, string EMAIL, string FName, string LastName)
-        {
-            /*
-             * !!!Important in MVC
-                Receive data from view to controller
-                "Model Binding"
-                Form, it will look for input elements names and if those names match with
-            the names of the action method model properties
-            then it will automatically map that data
-             * 
-             *  a control with name=email. E.g., abc@abc.com passed to the model (case-insisitive)
-             *  UserRegisterRequestModel => Email. 
-             */
+            // ?? CHECK if returnUrl is null, then we go to home page
+            // otherwise, go to the 
+            returnUrl ??= Url.Content("~/"); 
 
             if (!ModelState.IsValid)
             {
                 return View();
             }
 
-            //only when every validation passes make sure you save to database
-            // call our User Service to  save to db
-            return View();
+            var user = await _userService.ValidateUser(loginRequestModel);
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Please check username and password");
+                return View();
+            }
+
+            // if user / password is success
+
+
+            // Cookie based Authentication
+            // Create a cookie with some information such that id, firstname, lastname, roles etc. CLAImS infomation
+            // that information should not be in plain text, it should be encrypted
+
+            // send this loginRequest to the UserService that will validate the un/pw
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Email),
+                new Claim(ClaimTypes.GivenName, user.FirstName),
+                new Claim(ClaimTypes.Surname, user.LastName),
+                new Claim(ClaimTypes.DateOfBirth, user.DateOfBirth.Value.ToShortDateString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            };
+
+            var claimsIndentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIndentity));
+
+            return LocalRedirect(returnUrl);
         }
 
         [HttpGet]
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Register()
         {
             return View();
         }
-
         [HttpPost]
-        public IActionResult Create()
+        public async Task<IActionResult> Register(UserRegisterRequestModel requestModel)
         {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Login()
-        {
+            // Model Binding
+            // Form, it will look for input elements names and if those names match with our Action menthod model
+            // properties
+            // then it will automatically map that data
+            // a control with name=EMAIL "abc@abc.com"
+            // UserRegisterRequestModel => Email
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            // only when every validaiton passes make sure you save to database
+            // call our User Service to save to Db
+            var createdUser = await _userService.RegisterUser(requestModel);
+            if (createdUser)
+            {
+                return RedirectToAction("Login");
+            }
             return View();
         }
     }
