@@ -2086,7 +2086,10 @@
         },
         "runtime": {
           "bin/placeholder/MovieShop.Infrastructure.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },

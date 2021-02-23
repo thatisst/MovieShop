@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+
 namespace MovieShop.Infrastructure.Services
 {
     public class UserService : IUserService
@@ -19,6 +20,7 @@ namespace MovieShop.Infrastructure.Services
             _userRepository = userRepository;
             _cryptoService = cryptoService;
         }
+
         public async Task<bool> RegisterUser(UserRegisterRequestModel userRegisterRequestModel)
         {
             // we need to check whether that email exists or not
@@ -32,6 +34,7 @@ namespace MovieShop.Infrastructure.Services
             var salt = _cryptoService.GenerateRandomSalt();
             var hashedPassword = _cryptoService.HashPassword(userRegisterRequestModel.Password, salt);
             // hash the password with salt and save the salt and hashed password to the Database
+
             var user = new User
             {
                 Email = userRegisterRequestModel.Email,
@@ -41,7 +44,9 @@ namespace MovieShop.Infrastructure.Services
                 LastName = userRegisterRequestModel.LastName,
                 DateOfBirth = userRegisterRequestModel.DateOfBirth
             };
+
             var createdUser = await _userRepository.AddAsync(user);
+
             if (createdUser != null && createdUser.Id > 0)
             {
                 return true;
@@ -51,17 +56,19 @@ namespace MovieShop.Infrastructure.Services
 
         public async Task<LoginResponseModel> ValidateUser(LoginRequestModel loginRequestModel)
         {
-            //get user by email
             var dbUser = await _userRepository.GetUserByEmail(loginRequestModel.Email);
+
             if (dbUser == null)
             {
                 return null;
             }
 
             var hashedPassword = _cryptoService.HashPassword(loginRequestModel.Password, dbUser.Salt);
+
             if (hashedPassword == dbUser.HashedPassword)
             {
-                //user has entered correct password
+                // User has entered correct password
+
                 var loginResponse = new LoginResponseModel
                 {
                     Id = dbUser.Id,
@@ -69,12 +76,14 @@ namespace MovieShop.Infrastructure.Services
                     FirstName = dbUser.FirstName,
                     LastName = dbUser.LastName,
                     DateOfBirth = dbUser.DateOfBirth
+
                 };
+
                 return loginResponse;
             }
 
-            return null; // or throw password exception
+            return null;
+
         }
     }
 }
-

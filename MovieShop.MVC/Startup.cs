@@ -50,7 +50,9 @@ namespace MovieShop.MVC
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICryptoService, CryptoService>();
 
-            services.AddDbContext<MovieShopDbContext>(option => 
+            services.AddTransient<ICurrentLogedInUser, CurrentLogedInUser>();
+
+            services.AddDbContext<MovieShopDbContext>(option =>
                 option.UseSqlServer(Configuration.GetConnectionString("MovieShopDbConnection")));
 
             services.AddHttpContextAccessor();
@@ -64,7 +66,7 @@ namespace MovieShop.MVC
                     option.LoginPath = "/Account/Login";
                 });
 
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -84,8 +86,8 @@ namespace MovieShop.MVC
             app.UseStaticFiles();
 
             app.UseRouting();
-
-            app.UseAuthorization(); //!!  after routing
+            app.UseAuthentication(); //!!  after routing
+            //app.UseAuthorization(); // this will NOT work for authentication
 
             app.UseAuthorization();
 
