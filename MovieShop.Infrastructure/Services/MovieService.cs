@@ -1,9 +1,13 @@
-﻿using MovieShop.Core.Entities;
+﻿using AutoMapper;
+using MovieShop.Core.Entities;
+using MovieShop.Core.Helpers;
+using MovieShop.Core.Models.Request;
 using MovieShop.Core.Models.Response;
 using MovieShop.Core.RepositoryInterfaces;
 using MovieShop.Core.ServiceInterfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,11 +16,34 @@ namespace MovieShop.Infrastructure.Services
     public class MovieService : IMovieService
     {       
         private readonly IMovieRepository _movieRepository;
+        private readonly IAsyncRepository<Review> _reviewRepository;
 
-        public MovieService(IMovieRepository movieRepository)
+        //private readonly IMapper _mapper;
+
+        public MovieService(IMovieRepository movieRepository, 
+            //IMapper mapper,
+            IAsyncRepository<Review> reviewRepository)
         {
             _movieRepository = movieRepository;
+            //_mapper = mapper;
+            _reviewRepository = reviewRepository;
         }
+
+        public Task<MovieDetailsResponseModel> CreateMovie(MovieCreateRequestModel movieCreateRequestModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<PaginatedList<MovieResponseModel>> GetAllMoviePurchasesByPagination(int pageSize = 20, int page = 1)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<PaginatedList<MovieResponseModel>> GetAllPurchasesByMovieId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<Movie>> GetHighestGrossingMovies()
         {           
             var movies = await _movieRepository.GetTopRevenueMovies();
@@ -67,6 +94,31 @@ namespace MovieShop.Infrastructure.Services
             return movieDetails;
         }
 
+        public Task<PaginatedList<MovieResponseModel>> GetMoviesByGenre(int genreId, int pageSize = 25, int page = 1)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<PaginatedList<MovieResponseModel>> GetMoviesByPagination(int pageSize = 20, int page = 1, string title = "")
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> GetMoviesCount(string title = "")
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<MovieCardResponseModel> GetReviewsForMovie(int id)
+        {
+            //Expression<Func<Review, bool>> filterExpression = review => review.MovieId == id;
+            //var reviews = await _reviewRepository.GetPagedData(1, 25, rev => rev.OrderByDescending(r => r.Rating),
+            //    filterExpression, review => review.Movie);
+
+            //var response = _mapper.Map<IEnumerable<ReviewMovieResponseModel>>(reviews);
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<MovieCardResponseModel>> GetTop25GrossingMovies()
         {
             var movies = await _movieRepository.GetTopRevenueMovies();
@@ -85,7 +137,18 @@ namespace MovieShop.Infrastructure.Services
             return movieResponseModel;
         }
 
-       
+        public async Task<IEnumerable<MovieResponseModel>> GetTopRatedMovies()
+        {
+            var topMovies = await _movieRepository.GetTopRatedMovies();
+            // map Movie to MovieResponseModel, TODO
+            var response = new List<MovieResponseModel>();
+            return response;
+        }
+
+        public Task<MovieDetailsResponseModel> UpdateMovie(MovieCreateRequestModel movieCreateRequestModel)
+        {
+            throw new NotImplementedException();
+        }
     }
 
   

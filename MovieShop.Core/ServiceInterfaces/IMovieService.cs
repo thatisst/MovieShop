@@ -1,4 +1,6 @@
 ﻿using MovieShop.Core.Entities;
+using MovieShop.Core.Helpers;
+using MovieShop.Core.Models.Request;
 using MovieShop.Core.Models.Response;
 using System;
 using System.Collections.Generic;
@@ -10,7 +12,21 @@ namespace MovieShop.Core.ServiceInterfaces
     public interface IMovieService
     {
         Task<MovieDetailsResponseModel> GetMovieById(int id);
+        Task<MovieCardResponseModel> GetReviewsForMovie(int id);
+        Task<PaginatedList<MovieResponseModel>> GetMoviesByGenre(int genreId, int pageSize = 25, int page = 1);
+        Task<PaginatedList<MovieResponseModel>> GetAllPurchasesByMovieId(int id);
+        Task<PaginatedList<MovieResponseModel>> GetMoviesByPagination(int pageSize = 20, int page = 1, string title = "");
+        Task<PaginatedList<MovieResponseModel>> GetAllMoviePurchasesByPagination(int pageSize = 20, int page = 1);
+
+        Task<MovieDetailsResponseModel> CreateMovie(MovieCreateRequestModel movieCreateRequestModel);
+        Task<MovieDetailsResponseModel> UpdateMovie(MovieCreateRequestModel movieCreateRequestModel);
 
         Task<IEnumerable<MovieCardResponseModel>> GetTop25GrossingMovies();
+        Task<IEnumerable<MovieResponseModel>> GetTopRatedMovies();
+        Task<int> GetMoviesCount(string title = "");
+
+
+
+
     }
 }

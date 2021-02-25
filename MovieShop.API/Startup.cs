@@ -2,11 +2,18 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MovieShop.Core.Entities;
+using MovieShop.Core.RepositoryInterfaces;
+using MovieShop.Core.ServiceInterfaces;
+using MovieShop.Infrastructure.Data;
+using MovieShop.Infrastructure.Repositories;
+using MovieShop.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +39,27 @@ namespace MovieShop.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MovieShop.API", Version = "v1" });
             });
+
+            //every time you see 'IMovieService', RUN 'MovieService'
+            services.AddTransient<IMovieService, MovieService>(); // whenever we see IMovieService as a constructor parameter, will replace that with MovieService Class; change here if we want to pass a new class as parameters
+            services.AddTransient<IMovieRepository, MovieRepository>();
+
+            services.AddTransient<IGenreService, GenreService>();
+            services.AddTransient<IAsyncRepository<Genre>, EfRepository<Genre>>();
+            services.AddTransient<IAsyncRepository<Review>, EfRepository<Review>>();
+
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ICurrentLogedInUser, CurrentLogedInUser>();
+
+            services.AddTransient<IPurchaseRepository, PurchaseRepository>();
+            services.AddTransient<ICryptoService, CryptoService>();
+
+            services.AddDbContext<MovieShopDbContext>(option =>
+                option.UseSqlServer(Configuration.GetConnectionString("MovieShopDbConnection")));
+
+            services.AddHttpContextAccessor();
+            //http context available in MVC only, so need to inject to Infrustructure
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -15,6 +15,7 @@ namespace MovieShop.Infrastructure.Repositories
         {
 
         }
+
         public async Task<User> GetUserByEmail(string email)
         {
             var user = await _dbContext.Users.Include(u => u.Roles).FirstOrDefaultAsync(u => u.Email == email);

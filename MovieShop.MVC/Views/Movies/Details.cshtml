@@ -3,8 +3,9 @@
     .jumbotron {
         background-image: url("@Model.BackdropUrl");
         background-size: cover;
-        /*backdrop-filter: blur(6px);*/
         color: white;
+        background-color: #07131b;
+        background-blend-mode: overlay;
     }
 </style>
 
@@ -27,8 +28,6 @@
                         <span class="badge badge-dark badge-pill"> @genre.Name </span>
                     }
 
-
-
                     <h3><span class="badge badge-warning badge-pill"> Rating: 8.3 </span></h3>
                     <p>
                         @Model.Overview
@@ -38,24 +37,24 @@
                 <div class="col-4">
                     <ul class="list-group list">
                         <li class="list-group-item d-flex justify-content-start align-items-center">
-                            <button class="btn btn-dark btn-outline-light btn-block">
-                                REVIEW
-                            </button>
+                            <a class="btn btn-dark btn-outline-light btn-block" asp-route-id="@Model.Id" asp-controller="User" asp-action="ReviewMovie">
+                                <i class="far fa-edit mr-1"></i> REVIEW
+                            </a>
                         </li>
                         <li class="list-group-item d-flex justify-content-start align-items-center">
-                            <button class="btn btn-dark btn-outline-light btn-block">
+                            <a class="btn btn-dark btn-outline-light btn-block">
                                 TRAILER
-                            </button>
+                            </a>
                         </li>
                         <li class="list-group-item d-flex justify-content-start align-items-center">
-                            <button class="btn btn-light btn-block">
+                            <a class="btn btn-light btn-block" asp-route-id="@Model.Id" asp-controller="User" asp-action="BuyMovie">
                                 BUY $ @Model.Price
-                            </button>
+                            </a>
                         </li>
                         <li class="list-group-item d-flex justify-content-start align-items-center">
-                            <button class="btn btn-light btn-block">
+                            <a class="btn btn-light btn-block" asp-route-id="@Model.Id">
                                 WATCH MOVIE
-                            </button>
+                            </a>
                         </li>
                     </ul>
                 </div>

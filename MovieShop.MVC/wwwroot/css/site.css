@@ -11,6 +11,19 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+.list-group-item {
+    background-color:transparent;
+}
+
+.bg-image {
+    height: 28.1rem;
+    width: 100%;
+    background-size: cover;
+    background-color: #07131b;
+    background-blend-mode: overlay;
+}
+
+
 /* Provide sufficient contrast against white background */
 a {
   color: #0366d6;

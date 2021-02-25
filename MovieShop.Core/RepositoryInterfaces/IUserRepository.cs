@@ -10,7 +10,7 @@ namespace MovieShop.Core.RepositoryInterfaces
     {
 
         //get user by email
-
         Task<User> GetUserByEmail(string email);
+
     }
 }

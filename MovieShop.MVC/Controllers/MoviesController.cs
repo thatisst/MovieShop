@@ -50,9 +50,10 @@ namespace MovieShop.MVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult Genre(int genreId)
+        public async Task<IActionResult> Genre(int genreId, int pageSize = 30, int pagaeNumber = 1)
         {
-            return View();
+            var movies = await _movieService.GetMoviesByGenre(genreId);
+            return View("PagedIndex", movies);
         }
 
         [HttpGet]

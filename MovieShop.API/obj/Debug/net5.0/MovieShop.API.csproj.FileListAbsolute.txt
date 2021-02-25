@@ -59,3 +59,10 @@ C:\Users\Stell\source\repos\MovieShop\MovieShop.API\obj\Debug\net5.0\MovieShop.A
 C:\Users\Stell\source\repos\MovieShop\MovieShop.API\obj\Debug\net5.0\ref\MovieShop.API.dll
 C:\Users\Stell\source\repos\MovieShop\MovieShop.API\obj\Debug\net5.0\MovieShop.API.pdb
 C:\Users\Stell\source\repos\MovieShop\MovieShop.API\obj\Debug\net5.0\MovieShop.API.genruntimeconfig.cache
+C:\Users\Stell\source\repos\MovieShop\MovieShop.API\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\Stell\source\repos\MovieShop\MovieShop.API\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\Stell\source\repos\MovieShop\MovieShop.API\bin\Debug\net5.0\MovieShop.Core.dll
+C:\Users\Stell\source\repos\MovieShop\MovieShop.API\bin\Debug\net5.0\MovieShop.Infrastructure.dll
+C:\Users\Stell\source\repos\MovieShop\MovieShop.API\bin\Debug\net5.0\MovieShop.Core.pdb
+C:\Users\Stell\source\repos\MovieShop\MovieShop.API\bin\Debug\net5.0\MovieShop.Infrastructure.pdb
+C:\Users\Stell\source\repos\MovieShop\MovieShop.API\bin\Debug\net5.0\AutoMapper.dll

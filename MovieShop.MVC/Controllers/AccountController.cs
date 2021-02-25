@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using MovieShop.Core.Models.Request;
+using MovieShop.Core.Models.Response;
 using MovieShop.Core.ServiceInterfaces;
 using System;
 using System.Collections.Generic;
@@ -64,6 +65,12 @@ namespace MovieShop.MVC.Controllers
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             };
 
+            var roles = new List<RoleModel>();
+            foreach (var role in user.Roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role.Name));
+            }
+            
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
@@ -76,7 +83,6 @@ namespace MovieShop.MVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Register()
         {
-
             return View();
         }
 

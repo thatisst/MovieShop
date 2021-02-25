@@ -168,3 +168,7 @@ C:\Users\Stell\source\repos\MovieShop\MovieShop.MVC\bin\Debug\net5.0\runtimes\wi
 C:\Users\Stell\source\repos\MovieShop\MovieShop.MVC\bin\Debug\net5.0\runtimes\win-arm64\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
 C:\Users\Stell\source\repos\MovieShop\MovieShop.MVC\obj\Debug\net5.0\Razor\Views\Account\Login.cshtml.g.cs
 C:\Users\Stell\source\repos\MovieShop\MovieShop.MVC\obj\Debug\net5.0\Razor\Views\Shared\_LoginPartial.cshtml.g.cs
+C:\Users\Stell\source\repos\MovieShop\MovieShop.MVC\obj\Debug\net5.0\Razor\Views\User\BuyMovie.cshtml.g.cs
+C:\Users\Stell\source\repos\MovieShop\MovieShop.MVC\obj\Debug\net5.0\Razor\Views\User\ReviewMovie.cshtml.g.cs
+C:\Users\Stell\source\repos\MovieShop\MovieShop.MVC\obj\Debug\net5.0\Razor\Views\Admin\CreateMovie.cshtml.g.cs
+C:\Users\Stell\source\repos\MovieShop\MovieShop.MVC\bin\Debug\net5.0\AutoMapper.dll
