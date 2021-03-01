@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -7,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MovieShop.Core.Entities;
 using MovieShop.Core.RepositoryInterfaces;
@@ -17,6 +20,7 @@ using MovieShop.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MovieShop.API
@@ -54,12 +58,37 @@ namespace MovieShop.API
 
             services.AddTransient<IPurchaseRepository, PurchaseRepository>();
             services.AddTransient<ICryptoService, CryptoService>();
+            services.AddTransient<IJwtService, JwtService>();
 
             services.AddDbContext<MovieShopDbContext>(option =>
                 option.UseSqlServer(Configuration.GetConnectionString("MovieShopDbConnection")));
 
             services.AddHttpContextAccessor();
             //http context available in MVC only, so need to inject to Infrustructure
+
+            // look for token in HTTP header and decode the token
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey =
+                            new SymmetricSecurityKey(Encoding
+                                .UTF8
+                                .GetBytes(Configuration
+                                    ["TokenSettings:PrivateKey"]))
+                    };
+                });
+            services.AddAuthorization(options =>
+            {
+                var defaultAuthorizationPolicyBuilder =
+                    new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme);
+                defaultAuthorizationPolicyBuilder = defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
+                options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,6 +100,12 @@ namespace MovieShop.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MovieShop.API v1"));
             }
+
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins(Configuration.GetValue<string>("clientSPAUrl")).AllowAnyHeader().AllowAnyMethod().
+                AllowCredentials();
+            });
 
             app.UseHttpsRedirection();
 

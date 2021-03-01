@@ -1,0 +1,18 @@
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form (ngSubmit) = "login()" #loginForm='ngForm'>  
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" class="form-control" aria-describedby="emailHelp" name="name" id="txtEmail" [(ngModel)]='userLogin.email'>
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" class="form-control" name="password" id="txtPassword" [(ngModel)]='userLogin.password'>
+            </div>
+            <input type="submit" class="btn btn-primary" value="submit">
+          </form>
+    </div>
+</div>
+
+<!-- Email address and password to the Login component from view will send it to Servce which will send it to API to validate ... -->

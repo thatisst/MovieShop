@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MovieShop.Core.Models.Request;
 using MovieShop.Core.Models.Response;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MovieShop.API.Controllers
 {
@@ -17,13 +18,31 @@ namespace MovieShop.API.Controllers
     {
         private readonly IUserService _userService;
         private readonly IUserRepository _userRepository;
+        private readonly ICurrentLogedInUser _currentUser;
 
-        public UserController(IUserService userService, IUserRepository userRepository)
+        public UserController(IUserService userService, IUserRepository userRepository,
+            ICurrentLogedInUser currentUser)
         {
             _userService = userService;
             _userRepository = userRepository;
+            _currentUser = currentUser;
         }
 
+        //test-only method
+        [Authorize]
+        [HttpGet("{id:int}/purchases")]
+        public async Task<ActionResult> GetUserPurchasedMoviesAsync(int id)
+        {
+            // we have to check the id from the url is equal to the id from the JWT TOken then only show the data
+            if (id != _currentUser.UserId.Value)
+            {
+                return Unauthorized("Hey you cannot access other person's info!");
+            }
+            
+            return Ok();
+            //var userMovies = await _userService.GetAllPurchasesForUser(id);
+            //return Ok(userMovies);
+        }
 
         [HttpPost]
         [Route("purchase")]

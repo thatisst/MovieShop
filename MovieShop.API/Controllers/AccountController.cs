@@ -14,9 +14,11 @@ namespace MovieShop.API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IUserService _userService;
-        public AccountController(IUserService userService)
+        private readonly IJwtService _jwtService;
+        public AccountController(IUserService userService, IJwtService jwtService)
         {
             _userService = userService;
+            _jwtService = jwtService;
         }
 
         [HttpGet]
@@ -58,7 +60,10 @@ namespace MovieShop.API.Controllers
             }
 
             var logedInUser = await _userService.ValidateUser(loginRequestModel);
-            return Ok(logedInUser);
+
+            var tokenObject = new { token = _jwtService.GenerateJWT(logedInUser) };
+
+            return Ok(tokenObject);
         }
     }
 }
