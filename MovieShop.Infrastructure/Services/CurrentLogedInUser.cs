@@ -63,6 +63,8 @@ namespace MovieShop.Infrastructure.Services
 
         List<string> ICurrentLogedInUser.Roles => throw new NotImplementedException();
 
+        public string ProfilePictureUrl { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         private int? GetUserId()
         {
             // read from cookie - get User Id

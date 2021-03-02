@@ -172,3 +172,4 @@ C:\Users\Stell\source\repos\MovieShop\MovieShop.MVC\obj\Debug\net5.0\Razor\Views
 C:\Users\Stell\source\repos\MovieShop\MovieShop.MVC\obj\Debug\net5.0\Razor\Views\User\ReviewMovie.cshtml.g.cs
 C:\Users\Stell\source\repos\MovieShop\MovieShop.MVC\obj\Debug\net5.0\Razor\Views\Admin\CreateMovie.cshtml.g.cs
 C:\Users\Stell\source\repos\MovieShop\MovieShop.MVC\bin\Debug\net5.0\AutoMapper.dll
+C:\Users\Stell\source\repos\MovieShop\MovieShop.MVC\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

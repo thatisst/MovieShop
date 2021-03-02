@@ -15,6 +15,9 @@ namespace MovieShop.Core.RepositoryInterfaces
         // R - Reading
         Task<T> GetByIdAsyc(int id); //Get Genre by Id
         Task<IEnumerable<T>> ListAllAsync(); //Return all Genres
+        Task<IEnumerable<T>> ListAllWithIncludeAsync(Expression<Func<T, bool>> where,
+            params Expression<Func<T, object>>[] includes); //Return all Genres
+
 
         // LINQ list of movies on some where condition (where m.title = "Aven", m.revenue > 1000000)
         Task<IEnumerable<T>> ListAsync(Expression<Func<T, bool>> filter);//Based on filters, give a list of Movies

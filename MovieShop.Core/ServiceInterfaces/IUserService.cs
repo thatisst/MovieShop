@@ -17,15 +17,23 @@ namespace MovieShop.Core.ServiceInterfaces
         Task<User> GetUser(string email);
         Task<PagedResultSet<User>> GetAllUsersByPagination(int pageSize = 20, int page = 0, string lastName = "");
 
+        
         Task<bool> IsMoviePurchased(PurchaseRequestModel purchaseRequestModel);
         Task<bool> PurchaseMovie(PurchaseRequestModel purchaseRequestModel);
         Task<PurchaseResponseModel> GetAllPurchaseForUser(int id);
+
+        Task AddFavorite(FavoriteRequestModel favoriteRequestModel);
+        Task RemoveFavorite(FavoriteRequestModel favoriteRequestModel);
+        Task<bool> FavoriteExists(int id, int movieId);
+        Task<FavoriteResponseModel> GetAllFavoritesForUser(int id);
 
 
         Task<bool> PostMoviewReview(ReviewRequestModel reviewRequestModel);
         Task<bool> UpdateMoviewReview(ReviewRequestModel reviewRequestModel);
         Task<bool> DeleteMoviewReview(int userId, int movieId);
         Task<ReviewResponseModel> GetAllReviewsByUser(int userId, int movieId);
+
+        Task<Uri> UploadUserProfilePicture(UserProfileRequestModel userProfileRequestModel);
 
 
 

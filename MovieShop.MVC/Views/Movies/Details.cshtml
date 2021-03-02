@@ -43,7 +43,7 @@
                         </li>
                         <li class="list-group-item d-flex justify-content-start align-items-center">
                             <a class="btn btn-dark btn-outline-light btn-block">
-                                TRAILER
+                                <i class="fas fa-caret-right mr-1"></i></i>TRAILER
                             </a>
                         </li>
                         <li class="list-group-item d-flex justify-content-start align-items-center">
@@ -73,20 +73,20 @@
                 </h3>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item d-flex justify-content-start align-items-center">
-                        Release Date
-                        <span class="badge badge-dark badge-pill"> @Model.ReleaseDate.Value.ToShortDateString() </span>
+                        <i class="fas fa-calendar-alt mr-2"></i> Release Date
+                        <span class="badge badge-dark badge-pill ml-2"> @Model.ReleaseDate.Value.ToShortDateString() </span>
                     </li>
                     <li class="list-group-item d-flex justify-content-start align-items-center">
-                        Run Time
-                        <span class="badge badge-dark badge-pill"> @Model.RunTime m</span>
+                        <i class="fas fa-hourglass-half mr-2"></i>Run Time
+                        <span class="badge badge-dark badge-pill ml-2"> @Model.RunTime m</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-start align-items-center">
-                        Box Office
-                        <span class="badge badge-dark badge-pill"> $ @Model.Revenue</span>
+                        <i class="far fa-money-bill-alt mr-2"></i>Box Office
+                        <span class="badge badge-dark badge-pill ml-2"> $ @Model.Revenue</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-start align-items-center">
-                        Budget
-                        <span class="badge badge-dark badge-pill"> $ @Model.Budget</span>
+                        <i class="fas fa-dollar-sign mr-2"></i>Budget
+                        <span class="badge badge-dark badge-pill ml-2"> $ @Model.Budget</span>
                     </li>
 
                 </ul>

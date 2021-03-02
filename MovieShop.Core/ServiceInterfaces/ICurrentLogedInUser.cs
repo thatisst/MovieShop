@@ -15,6 +15,7 @@ namespace MovieShop.Core.ServiceInterfaces
         bool IsSuperAdmin { get; }
         bool IsAuthenticated { get; }
         IEnumerable<Claim> GetClaimsIdentity();
+        public string ProfilePictureUrl { get; set; }
 
     }
 }
