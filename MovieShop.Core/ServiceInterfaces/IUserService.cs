@@ -12,7 +12,7 @@ namespace MovieShop.Core.ServiceInterfaces
     public interface IUserService
     {
         Task<bool> RegisterUser(UserRegisterRequestModel userRegisterRequestModel);
-        Task<LoginResponseModel> ValidateUser(LoginRequestModel loginRequestModel);
+        Task<LoginResponseModel> ValidateUser(string email, string password);
         Task<UserRegisterResponseModel> GetUserDetails(int id);
         Task<User> GetUser(string email);
         Task<PagedResultSet<User>> GetAllUsersByPagination(int pageSize = 20, int page = 0, string lastName = "");

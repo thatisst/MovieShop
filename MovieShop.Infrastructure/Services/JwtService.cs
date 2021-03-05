@@ -34,6 +34,7 @@ namespace MovieShop.Infrastructure.Services
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             };
 
+
             var roles = new List<RoleModel>();
             foreach (var role in user.Roles)
             {

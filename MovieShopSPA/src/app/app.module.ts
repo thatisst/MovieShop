@@ -22,6 +22,10 @@ import { CreateMovieComponent } from './admin/create-movie/create-movie.componen
 import { CreateCastComponent } from './admin/create-cast/create-cast.component';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 import { MovieCardComponent } from './shared/components/movie-card/movie-card.component';
+import { NotAuthorizedComponent } from './shared/components/not-authorized/not-authorized.component';
+import { FavoriteButtonComponent } from './shared/components/favorite-button/favorite-button.component';
+import { MovieListComponent } from './shared/components/movie-list/movie-list.component';
+import { SearchMoviesComponent } from './shared/components/search-movies/search-movies.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +43,11 @@ import { MovieCardComponent } from './shared/components/movie-card/movie-card.co
     CreateMovieComponent,
     CreateCastComponent,
     NotFoundComponent,
-    MovieCardComponent
+    MovieCardComponent,
+    NotAuthorizedComponent,
+    FavoriteButtonComponent,
+    MovieListComponent,
+    SearchMoviesComponent
   ],
   imports: [
     BrowserModule,

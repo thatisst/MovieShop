@@ -141,21 +141,19 @@ namespace MovieShop.Infrastructure.Services
             return false;
         }
 
-        public async Task<LoginResponseModel> ValidateUser(LoginRequestModel loginRequestModel)
+        public async Task<LoginResponseModel> ValidateUser(string email, string password)
         {
-            var dbUser = await _userRepository.GetUserByEmail(loginRequestModel.Email);
-
+            var dbUser = await _userRepository.GetUserByEmail(email);
             if (dbUser == null)
-            {
                 return null;
-            }
 
-            var hashedPassword = _cryptoService.HashPassword(loginRequestModel.Password, dbUser.Salt);
+
+            var hashedPassword = _cryptoService.HashPassword(password, dbUser.Salt);
             var isSuccess = dbUser.HashedPassword == hashedPassword;
 
             //Get the roles of the user
 
-            if (hashedPassword == dbUser.HashedPassword)
+            if (isSuccess)
             {
                 // User has entered correct password
 

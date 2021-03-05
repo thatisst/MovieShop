@@ -111,6 +111,12 @@ namespace MovieShop.API
                 AllowCredentials();
             });
 
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins(Configuration.GetValue<string>("client2SPAUrl")).AllowAnyHeader().AllowAnyMethod().
+                AllowCredentials();
+            });
+
             app.UseHttpsRedirection();
 
             app.UseRouting();

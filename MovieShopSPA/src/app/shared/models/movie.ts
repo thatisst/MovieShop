@@ -1,3 +1,6 @@
+import { Genre } from './genre';
+import { Cast } from './cast';
+
 export interface Movie {
     id: number;
     title: string;
@@ -17,16 +20,3 @@ export interface Movie {
     casts: Cast[];
   }
   
-interface Cast {
-    id: number;
-    name: string;
-    gender: string;
-    tmdbUrl?: any;
-    profilePath: string;
-    character: string;
-  }
-
-  interface Genre {
-    id: number;
-    name: string;
-  }
