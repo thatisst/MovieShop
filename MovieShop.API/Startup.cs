@@ -15,6 +15,7 @@ using MovieShop.Core.Entities;
 using MovieShop.Core.RepositoryInterfaces;
 using MovieShop.Core.ServiceInterfaces;
 using MovieShop.Infrastructure.Data;
+using MovieShop.Infrastructure.Helpers;
 using MovieShop.Infrastructure.Repositories;
 using MovieShop.Infrastructure.Services;
 using System;
@@ -61,9 +62,11 @@ namespace MovieShop.API
             services.AddTransient<ICryptoService, CryptoService>();
             services.AddTransient<IJwtService, JwtService>();
 
+            services.AddAutoMapper(typeof(Startup), typeof(MovieShopMappingProfile));
+
             services.AddDbContext<MovieShopDbContext>(option =>
                 option.UseSqlServer(Configuration.GetConnectionString("MovieShopDbConnection")));
-
+            services.AddMemoryCache();
             services.AddHttpContextAccessor();
             //http context available in MVC only, so need to inject to Infrustructure
 

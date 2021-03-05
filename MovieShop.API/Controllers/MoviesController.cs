@@ -22,23 +22,26 @@ namespace MovieShop.API.Controllers
         }
 
         [HttpGet]
-        //[Route("~/")] // attribute based routing
-        public async Task<IActionResult> Index()
+        [Route("{id:int}")] 
+        public async Task<IActionResult> GetMovieById(int id)
         {
-
-            return Ok();
-        }
-
-        [HttpGet]
-        [Route("{Id}")] // attribute based routing
-        public async Task<IActionResult> Index(int id)
-        {
-            var movie = await _movieRepository.GetByIdAsyc(id);
+            var movie = await _movieService.GetMovieById(id);
+            if (movie == null) return NotFound("No movies found!");
             return Ok(movie);
         }
 
         [HttpGet]
-        [Route("{Id}/reviews")] // attribute based routing
+        [Route("")] 
+        public async Task<IActionResult> GetAllMovies([FromQuery] int pageSize = 25, [FromQuery] int page = 1,
+            string title = "")
+        {
+            var movies = await _movieService.GetMoviesByPagination(pageSize, page, title);
+            if (movies == null) return NotFound("No movies found!");
+            return Ok(movies);
+        }
+
+        [HttpGet]
+        [Route("{id:int}/reviews")] 
         public async Task<IActionResult> GetReviewsByMovie(int id)
         {
             var movie = await _movieRepository.GetMovieReviews(id);
@@ -77,8 +80,8 @@ namespace MovieShop.API.Controllers
         }
 
         [HttpGet]
-        [Route("genre/{genreId}")] // attribute based routing
-        public async Task<IActionResult> Genre(int genreId)
+        [Route("genre/{genreId:int}")] // attribute based routing
+        public async Task<IActionResult> GetMoviesByGenre(int genreId)
         {
             var movies = await _movieService.GetMoviesByGenre(genreId);
 

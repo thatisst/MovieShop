@@ -185,7 +185,7 @@ namespace MovieShop.Infrastructure.Services
 
         public async Task<UserRegisterResponseModel> GetUserDetails(int id)
         {
-            var user = await _userRepository.GetByIdAsyc(id);
+            var user = await _userRepository.GetByIdAsync(id);
             if (user == null) throw new NotFoundException("User", id);
 
             var response = new UserRegisterResponseModel

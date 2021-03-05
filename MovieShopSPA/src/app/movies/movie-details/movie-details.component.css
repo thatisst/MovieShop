@@ -1,0 +1,22 @@
+
+.cast-small-img {
+    width: 34px;
+    height: 51px;
+}
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+.list-group-item {
+    background-color:transparent;
+}
+
+.bg-image {
+    height: 28.1rem;
+    width: 100%;
+    background-size: cover;
+    background-color: #07131b;
+    background-blend-mode: overlay;
+}

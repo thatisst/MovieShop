@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieShop.Core.Entities;
+using MovieShop.Core.Exceptions;
 using MovieShop.Core.Helpers;
 using MovieShop.Core.RepositoryInterfaces;
 using MovieShop.Infrastructure.Data;
@@ -21,11 +22,9 @@ namespace MovieShop.Infrastructure.Repositories
 
         }
         public async Task<IEnumerable<Movie>> GetTopRatedMovies()
-        {
-            IEnumerable<Movie> movies = new List<Movie>();
-            //TODO
-    
-            return await _dbContext.Movies.OrderByDescending(m => m.Revenue).Take(25).ToListAsync();
+        {    
+            //return await _dbContext.Movies.OrderByDescending(m => m.Rating).Take(25).ToListAsync();
+            throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<Movie>> GetTopRevenueMovies()
@@ -33,10 +32,18 @@ namespace MovieShop.Infrastructure.Repositories
             return await _dbContext.Movies.OrderByDescending(m => m.Revenue).Take(25).ToListAsync();
         }
 
-        public override async Task<Movie> GetByIdAsyc(int id)
+        public override async Task<Movie> GetByIdAsync(int id)
         {
-            return await _dbContext.Movies.Include(m => m.MovieCasts).ThenInclude(m => m.Cast).Include(m => m.Genres).FirstOrDefaultAsync(m => m.Id == id);
-            //return _dbContext.Movies.FirstOrDefault(m => m.Id == id);
+            var movie = await _dbContext.Movies.Include(m => m.MovieCasts).ThenInclude(m => m.Cast)
+                .Include(m => m.Genres).FirstOrDefaultAsync(m => m.Id == id);
+            if (movie == null) throw new NotFoundException("Movie Not Found");
+
+            //var movieRating = await _dbContext.Reviews.Where(r => r.MovieId == id).DefaultIfEmpty()
+            //    .AverageAsync(r => r == null ? 0 : r.Rating);
+            //if (movieRating > 0)
+            //    movie.Rating = movieRating;
+
+            return movie;
         }
 
         public async Task<IEnumerable<Review>> GetMovieReviews(int id)
@@ -46,7 +53,7 @@ namespace MovieShop.Infrastructure.Repositories
                 {
                     UserId = r.UserId,
                     MovieId = r.MovieId,
-                    Rating = r.Rating,
+                    //Rating = r.Rating,
                     ReviewText = r.ReviewText,
                     User = new User
                     {
@@ -61,10 +68,11 @@ namespace MovieShop.Infrastructure.Repositories
 
         public async Task<PaginatedList<Movie>> GetMovieByGenres(int genreId, int pageSize = 25, int page = 1)
         {// think about linq again, TODO
-            var totalMoviesCountByGenre = await _dbContext.Genres.Include(g => g.Movies).Where(g => g.Id == genreId)
-                .SelectMany(g => g.Movies).CountAsync();
+            var totalMoviesCountByGenre = await _dbContext.Genres.Include(g => g.Movies)
+                .Where(g => g.Id == genreId).SelectMany(g => g.Movies).CountAsync();
             var movies = await _dbContext.Genres.Include(g => g.Movies).Where(g => g.Id == genreId)
-                .SelectMany(g => g.Movies).OrderByDescending(m => m.Revenue).Skip((page - 1) * 1).Take(pageSize).ToListAsync();
+                .SelectMany(g => g.Movies).OrderByDescending(m => m.Revenue)
+                .Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             return new PaginatedList<Movie>(movies, totalMoviesCountByGenre, page, pageSize);
         }
     }

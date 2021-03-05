@@ -20,8 +20,8 @@ namespace MovieShop.Infrastructure.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public bool IsAuthenticated => GetAuthenticated();
 
+        public bool IsAuthenticated => GetAuthenticated();
         private bool GetAuthenticated()
         {
             return _httpContextAccessor.HttpContext?.User.Identity != null 
@@ -30,7 +30,6 @@ namespace MovieShop.Infrastructure.Services
         }
 
         public string FullName => GetFullName();
-
         private string GetFullName()
         {
             var firstName = _httpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.GivenName).Value;
@@ -39,10 +38,12 @@ namespace MovieShop.Infrastructure.Services
             return firstName + " " + lastName;
         }
 
-        public string Email => throw new NotImplementedException();
+
+        public string Email => _httpContextAccessor.HttpContext?.User.Claims
+            .FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+
 
         public IEnumerable<string> Roles => GetRoles();
-
         private IEnumerable<String> GetRoles()
         {
             var claims = GetClaimsIdentity();
@@ -55,22 +56,43 @@ namespace MovieShop.Infrastructure.Services
             return roles;
         }
 
-        public bool IsAdmin => throw new NotImplementedException();
 
-        public bool IsSuperAdmin => throw new NotImplementedException();
+        public bool IsAdmin => GetIsAdmin();
+        private bool GetIsAdmin()
+        {
+            var roles = Roles;
+            return roles.Any(r => r.Contains("Admin"));
+        }
+
+
+        public bool IsSuperAdmin => GetIsSuperAdmin();
+        private bool GetIsSuperAdmin()
+        {
+            var roles = Roles;
+            return roles.Any(r => r.Contains("SuperAdmin"));
+        }
+
 
         public int? UserId => GetUserId();
-
-        List<string> ICurrentLogedInUser.Roles => throw new NotImplementedException();
-
-        public string ProfilePictureUrl { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
         private int? GetUserId()
         {
             // read from cookie - get User Id
             var userId = Convert.ToInt32(_httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier).Value);
             return userId;
         }
+
+
+        public string ProfilePictureUrl { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public string UserName => _httpContextAccessor.HttpContext?.User.Identity?.Name;
+
+
+        public string RemoteIpAddress => GetRemoteIpAddress();
+        private string GetRemoteIpAddress()
+        {
+            return _httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString();
+        }
+
 
         public IEnumerable<Claim> GetClaimsIdentity()
         {

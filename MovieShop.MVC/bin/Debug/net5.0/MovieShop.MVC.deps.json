@@ -1855,6 +1855,7 @@
       },
       "MovieShop.Core/1.0.0": {
         "dependencies": {
+          "Microsoft.EntityFrameworkCore": "5.0.3",
           "System.ComponentModel.Annotations": "5.0.0"
         },
         "runtime": {

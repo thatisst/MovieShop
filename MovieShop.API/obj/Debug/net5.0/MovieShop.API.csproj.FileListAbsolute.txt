@@ -66,3 +66,4 @@ C:\Users\Stell\source\repos\MovieShop\MovieShop.API\bin\Debug\net5.0\MovieShop.C
 C:\Users\Stell\source\repos\MovieShop\MovieShop.API\bin\Debug\net5.0\MovieShop.Infrastructure.pdb
 C:\Users\Stell\source\repos\MovieShop\MovieShop.API\bin\Debug\net5.0\AutoMapper.dll
 C:\Users\Stell\source\repos\MovieShop\MovieShop.API\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Stell\source\repos\MovieShop\MovieShop.API\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

@@ -33,7 +33,7 @@ namespace MovieShop.Infrastructure.Repositories
             return entity;
         }
 
-        public virtual async Task<T> GetByIdAsyc(int id)
+        public virtual async Task<T> GetByIdAsync(int id)
         {
             var entity = await _dbContext.Set<T>().FindAsync(id);
             return entity;
@@ -57,9 +57,14 @@ namespace MovieShop.Infrastructure.Repositories
             return await _dbContext.Set<T>().AnyAsync();
         }
 
-        public Task<PaginatedList<T>> GetPagedData(int pageIndex, int pageSize, Func<IQueryable<T>, IOrderedQueryable<T>> orderedQuery = null, Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[] includes)
+        public async Task<PaginatedList<T>> GetPagedData(int pageIndex = 1, int pageSize = 25, 
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderedQuery = null, 
+            Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[] includes)
         {
-            throw new NotImplementedException();
+            var pagedList =
+                await PaginatedList<T>.GetPaged(_dbContext.Set<T>(), pageIndex, pageSize,
+                orderedQuery, filter, includes);
+            return pagedList;
         }
 
         public virtual async Task<IEnumerable<T>> ListAllAsync()
@@ -67,7 +72,8 @@ namespace MovieShop.Infrastructure.Repositories
             return await _dbContext.Set<T>().ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> ListAllWithIncludeAsync(Expression<Func<T, bool>> where, params Expression<Func<T, object>>[] includes)
+        public async Task<IEnumerable<T>> ListAllWithIncludeAsync(Expression<Func<T, bool>> where, 
+            params Expression<Func<T, object>>[] includes)
         {
             var query = _dbContext.Set<T>().AsQueryable();
             if (includes != null)

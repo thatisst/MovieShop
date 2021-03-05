@@ -25,6 +25,9 @@ namespace MovieShop.Core.Entities
         public string UpdatedBy { get; set; }
         public string CreatedBy { get; set; }
 
+        //public decimal? Rating { get; set; }
+
+
         //navigation property
         //navigate from the Movie table to the Trailer table
         //1 Movie : N trailers

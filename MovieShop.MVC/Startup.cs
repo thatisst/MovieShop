@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using MovieShop.Core.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using AutoMapper;
+using MovieShop.Infrastructure.Helpers;
 
 namespace MovieShop.MVC
 {
@@ -52,7 +53,7 @@ namespace MovieShop.MVC
             services.AddTransient<IPurchaseRepository, PurchaseRepository>();
             services.AddTransient<ICryptoService, CryptoService>();
 
-            //services.AddAutoMapper(typeof(Startup), typeof(MovieShopMappingProfile));
+            services.AddAutoMapper(typeof(Startup), typeof(MovieShopMappingProfile));
 
             services.AddDbContext<MovieShopDbContext>(option =>
                 option.UseSqlServer(Configuration.GetConnectionString("MovieShopDbConnection")));

@@ -35,9 +35,8 @@ namespace MovieShop.API.Controllers
         {
             // we have to check the id from the url is equal to the id from the JWT TOken then only show the data
             if (id != _currentUser.UserId.Value)
-            {
                 return Unauthorized("Hey you cannot access other person's info!");
-            }
+            
             
             return Ok();
             //var userMovies = await _userService.GetAllPurchasesForUser(id);
@@ -46,7 +45,7 @@ namespace MovieShop.API.Controllers
 
         [HttpPost]
         [Route("purchase")]
-        public async Task<IActionResult> Purchase(PurchaseRequestModel purchaseRequestModel)
+        public async Task<IActionResult> CreatePurchase(PurchaseRequestModel purchaseRequestModel)
         {
             if (!ModelState.IsValid)
             {
@@ -58,7 +57,7 @@ namespace MovieShop.API.Controllers
         }
 
         [HttpGet]
-        [Route("{id}/purchase")]
+        [Route("{id:int}/purchase")]
         public async Task<IActionResult> GetPurchasesByUser(int userId)
         {
             if (!ModelState.IsValid)
@@ -84,7 +83,7 @@ namespace MovieShop.API.Controllers
         }
 
         [HttpGet]
-        [Route("{id}/reviews")]
+        [Route("{id:int}/reviews")]
         public async Task<IActionResult> GetReviewsByUser(int userId, int movieId)
         {
             if (!ModelState.IsValid)
@@ -110,7 +109,7 @@ namespace MovieShop.API.Controllers
         }
 
         [HttpDelete]
-        [Route("{userId}/movie/{movieId}")]
+        [Route("{userId:int}/movie/{movieId:int}")]
         public async Task<IActionResult> DeleteReview(int userId, int movieId)
         {
             if (!ModelState.IsValid)

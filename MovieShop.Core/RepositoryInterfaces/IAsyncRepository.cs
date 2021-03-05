@@ -13,7 +13,7 @@ namespace MovieShop.Core.RepositoryInterfaces
     {
         // CRUD
         // R - Reading
-        Task<T> GetByIdAsyc(int id); //Get Genre by Id
+        Task<T> GetByIdAsync(int id); //Get Genre by Id
         Task<IEnumerable<T>> ListAllAsync(); //Return all Genres
         Task<IEnumerable<T>> ListAllWithIncludeAsync(Expression<Func<T, bool>> where,
             params Expression<Func<T, object>>[] includes); //Return all Genres
