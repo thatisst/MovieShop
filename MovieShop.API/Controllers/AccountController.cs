@@ -22,45 +22,32 @@ namespace MovieShop.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> RegisterUser()
+        public async Task<IActionResult> EmailExistsAsync(string email)
         {
-       
-           
-            return Ok();
+            var user = await _userService.GetUser(email);
+            return Ok(user == null ? new { emailExists = false } : new { emailExists = true });
         }
 
         [HttpGet]
-        [Route("{id}")]
-        public async Task<IActionResult> GetUserByEmail(string email)
+        [Route("{id:int}")]
+        public async Task<IActionResult> GetUserByIdAsync(int id)
         {
-            var user = await _userService.GetUser(email);
-
+            var user = await _userService.GetUserDetails(id);
             return Ok(user);
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegisterUser(UserRegisterRequestModel userRegisterRequestModel)
+        public async Task<IActionResult> RegisterUserAsync([FromBody] UserRegisterRequestModel userRegisterRequestModel)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Please check data");
-            }
-
             var registerUser = await _userService.RegisterUser(userRegisterRequestModel);
             return Ok(registerUser);
         }
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login(LoginRequestModel loginRequestModel)
+        public async Task<IActionResult> LoginAsync([FromBody] LoginRequestModel loginRequestModel)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Login Failed");
-            }
-
             var logedInUser = await _userService.ValidateUser(loginRequestModel);
-
             var tokenObject = new { token = _jwtService.GenerateJWT(logedInUser) };
 
             return Ok(tokenObject);

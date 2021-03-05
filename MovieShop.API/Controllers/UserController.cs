@@ -28,24 +28,9 @@ namespace MovieShop.API.Controllers
             _currentUser = currentUser;
         }
 
-        //test-only method
         [Authorize]
-        [HttpGet("{id:int}/purchases")]
-        public async Task<ActionResult> GetUserPurchasedMoviesAsync(int id)
-        {
-            // we have to check the id from the url is equal to the id from the JWT TOken then only show the data
-            if (id != _currentUser.UserId.Value)
-                return Unauthorized("Hey you cannot access other person's info!");
-            
-            
-            return Ok();
-            //var userMovies = await _userService.GetAllPurchasesForUser(id);
-            //return Ok(userMovies);
-        }
-
-        [HttpPost]
-        [Route("purchase")]
-        public async Task<IActionResult> CreatePurchase(PurchaseRequestModel purchaseRequestModel)
+        [HttpPost("purchase")]
+        public async Task<IActionResult> CreatePurchaseAsync([FromBody] PurchaseRequestModel purchaseRequestModel)
         {
             if (!ModelState.IsValid)
             {
@@ -56,35 +41,70 @@ namespace MovieShop.API.Controllers
             return Ok(purchased);
         }
 
+        [Authorize]
+        [HttpPost]
+        [Route("favorite")]
+        public async Task<IActionResult> CreateFavoriteAsync([FromBody] FavoriteRequestModel favoriteRequestModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Please check favorite");
+            }
+
+            await _userService.AddFavorite(favoriteRequestModel);
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("unfavorite")]
+        public async Task<IActionResult> RemoveFavoriteAsync([FromBody] FavoriteRequestModel favoriteRequestModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Please check favorite");
+            }
+
+            await _userService.RemoveFavorite(favoriteRequestModel);
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("{id:int}/movie/{movieId}/favorite")]
+        public async Task<IActionResult> IsFavoriteExistAsync(int id, int movieId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Please log in to check if favorite exists");
+            }
+
+            var favoriteExists = await _userService.FavoriteExists(id, movieId);
+            return Ok(new {isFavorited = favoriteExists});
+        }
+
+        [Authorize]
         [HttpGet]
         [Route("{id:int}/purchase")]
-        public async Task<IActionResult> GetPurchasesByUser(int userId)
+        public async Task<IActionResult> GetPurchasedMoviesByUserAsync(int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest("Please check reviews by id");
             }
 
-            var purchasedByUser = await _userService.GetAllPurchaseForUser(userId);
+            if (id != _currentUser.UserId.Value)
+                return Unauthorized("Hey you cannot access other person's info!");
+
+            var purchasedByUser = await _userService.GetAllPurchaseForUser(id);
             return Ok(purchasedByUser);
         }
 
-        [HttpPost]
-        [Route("review")]
-        public async Task<IActionResult> Review(ReviewRequestModel reviewRequestModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Please check review");
-            }
-
-            var reviewed = await _userService.PostMoviewReview(reviewRequestModel);
-            return Ok(reviewed);
-        }
-
+        
+        [Authorize]
         [HttpGet]
         [Route("{id:int}/reviews")]
-        public async Task<IActionResult> GetReviewsByUser(int userId, int movieId)
+        public async Task<IActionResult> GetReviewsByUserAsync(int userId, int movieId)
         {
             if (!ModelState.IsValid)
             {
@@ -95,9 +115,38 @@ namespace MovieShop.API.Controllers
             return Ok(reviewedByUser);
         }
 
+        [Authorize]
+        [HttpGet]
+        [Route("{id:int}/favorites")]
+        public async Task<IActionResult> GetFavoritesByUserAsync(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Please check reviews by id");
+            }
+
+            var reviewedByUser = await _userService.GetAllFavoritesForUser(id);
+            return Ok(reviewedByUser);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("review")]
+        public async Task<IActionResult> CreateReviewAsync(ReviewRequestModel reviewRequestModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Please check review");
+            }
+
+            var reviewed = await _userService.PostMoviewReview(reviewRequestModel);
+            return Ok(reviewed);
+        }
+
+        [Authorize]
         [HttpPut]
         [Route("review")]
-        public async Task<IActionResult> UpdateReview(ReviewRequestModel reviewRequestModel)
+        public async Task<IActionResult> UpdateReviewAsync(ReviewRequestModel reviewRequestModel)
         {
             if (!ModelState.IsValid)
             {
@@ -108,9 +157,10 @@ namespace MovieShop.API.Controllers
             return Ok(reviewUpdateded);
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("{userId:int}/movie/{movieId:int}")]
-        public async Task<IActionResult> DeleteReview(int userId, int movieId)
+        public async Task<IActionResult> DeleteReviewAsync(int userId, int movieId)
         {
             if (!ModelState.IsValid)
             {

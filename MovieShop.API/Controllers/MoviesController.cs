@@ -23,7 +23,7 @@ namespace MovieShop.API.Controllers
 
         [HttpGet]
         [Route("{id:int}")] 
-        public async Task<IActionResult> GetMovieById(int id)
+        public async Task<IActionResult> GetMovieByIdAsync(int id)
         {
             var movie = await _movieService.GetMovieById(id);
             if (movie == null) return NotFound("No movies found!");
@@ -32,7 +32,7 @@ namespace MovieShop.API.Controllers
 
         [HttpGet]
         [Route("")] 
-        public async Task<IActionResult> GetAllMovies([FromQuery] int pageSize = 25, [FromQuery] int page = 1,
+        public async Task<IActionResult> GetAllMoviesAsync([FromQuery] int pageSize = 25, [FromQuery] int page = 1,
             string title = "")
         {
             var movies = await _movieService.GetMoviesByPagination(pageSize, page, title);
@@ -42,7 +42,7 @@ namespace MovieShop.API.Controllers
 
         [HttpGet]
         [Route("{id:int}/reviews")] 
-        public async Task<IActionResult> GetReviewsByMovie(int id)
+        public async Task<IActionResult> GetReviewsByMovieAsync(int id)
         {
             var movie = await _movieRepository.GetMovieReviews(id);
             return Ok(movie);
@@ -50,7 +50,7 @@ namespace MovieShop.API.Controllers
 
         [HttpGet]
         [Route("toprevenue")] // attribute based routing
-        public async Task<IActionResult> GetTopRevenueMovies()
+        public async Task<IActionResult> GetTopRevenueMoviesAsync()
         {
             var movies = await _movieService.GetTop25GrossingMovies();
 
@@ -68,7 +68,7 @@ namespace MovieShop.API.Controllers
 
         [HttpGet]
         [Route("toprated")] // attribute based routing
-        public async Task<IActionResult> GetTopRatedMovies()
+        public async Task<IActionResult> GetTopRatedMoviesAsync()
         {
             var movies = await _movieService.GetTopRatedMovies();
 
@@ -81,7 +81,7 @@ namespace MovieShop.API.Controllers
 
         [HttpGet]
         [Route("genre/{genreId:int}")] // attribute based routing
-        public async Task<IActionResult> GetMoviesByGenre(int genreId)
+        public async Task<IActionResult> GetMoviesByGenreAsync(int genreId)
         {
             var movies = await _movieService.GetMoviesByGenre(genreId);
 
