@@ -42,7 +42,7 @@ namespace MovieShop.API.Controllers
         {
             var registerUser = await _userService.RegisterUser(userRegisterRequestModel);
 
-            return Ok(registerUser);
+            return CreatedAtRoute("GetUser", new { id = registerUser.Id}, registerUser);
         }
 
         [HttpPost]
@@ -50,6 +50,9 @@ namespace MovieShop.API.Controllers
         public async Task<IActionResult> LoginAsync([FromBody] LoginRequestModel loginRequestModel)
         {
             var logedInUser = await _userService.ValidateUser(loginRequestModel.Email, loginRequestModel.Password);
+            if (logedInUser == null) 
+                return Unauthorized();
+
             var tokenObject = new { token = _jwtService.GenerateJWT(logedInUser) };
 
             return Ok(tokenObject);

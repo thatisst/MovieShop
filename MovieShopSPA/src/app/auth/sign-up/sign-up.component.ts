@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { ApiService } from './../../core/services/api.service';
 import { ValidatorService } from './../../core/services/validator.service';
 import { Component, OnInit } from '@angular/core';
@@ -16,7 +17,6 @@ export class SignUpComponent implements OnInit {
   // all Reactive Controls inherit from AbstractControl class
   signupForm!: FormGroup;
   submitted = false;
-  private user!: User;
 
   constructor(private fb: FormBuilder, private validatorService: ValidatorService
     , private apiService: ApiService) { 
@@ -71,15 +71,12 @@ export class SignUpComponent implements OnInit {
       return;
     }
 
-    this.apiService.create('account/login', this.user);
-    // .pipe(map((response => {
-    //   if (response) {
-    //     this.jwtStorageService.saveToken(response.token);
-    //     this.populateUserInfo();
-    //     return true;
-    //   }
-    //   return false;
-    // })));
+    console.warn(this.signupForm.value)
+    this.apiService.create('account/login', this.signupForm.value);
+    // .subscribe(
+    //   (data) => console.log("Sign up form submitted successfully"),
+    //   (error: HttpErrorResponse) => console.log(error)
+    // );
 
     console.log("last line of code in sgn-up component");
   }

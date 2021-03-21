@@ -11,7 +11,7 @@ namespace MovieShop.Core.ServiceInterfaces
 {
     public interface IUserService
     {
-        Task<bool> RegisterUser(UserRegisterRequestModel userRegisterRequestModel);
+        Task<UserRegisterResponseModel> RegisterUser(UserRegisterRequestModel userRegisterRequestModel);
         Task<LoginResponseModel> ValidateUser(string email, string password);
         Task<UserRegisterResponseModel> GetUserDetails(int id);
         Task<User> GetUser(string email);

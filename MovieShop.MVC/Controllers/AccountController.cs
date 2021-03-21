@@ -40,7 +40,7 @@ namespace MovieShop.MVC.Controllers
                 return View();
             }
 
-            var user = await _userService.ValidateUser(loginRequest);
+            var user = await _userService.ValidateUser(loginRequest.Email, loginRequest.Password);
 
             if (user == null)
             {
@@ -110,7 +110,7 @@ namespace MovieShop.MVC.Controllers
             // only when every validaiton passes make sure you save to database
             // call our User Service to save to Db
             var createdUser = await _userService.RegisterUser(requestModel);
-            if (createdUser)
+            if (createdUser == null)
             {
                 return RedirectToAction("Login");
             }

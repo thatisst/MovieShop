@@ -107,14 +107,13 @@ namespace MovieShop.Infrastructure.Services
         }
 
 
-        public async Task<bool> RegisterUser(UserRegisterRequestModel userRegisterRequestModel)
+        public async Task<UserRegisterResponseModel> RegisterUser(UserRegisterRequestModel userRegisterRequestModel)
         {
             // we need to check whether that email exists or not
             var dbUser = await _userRepository.GetUserByEmail(userRegisterRequestModel.Email);
-            if (dbUser != null)
-            {
-                throw new ConflictException("Email already exists");
-            }
+            if (dbUser != null &&
+                string.Equals(dbUser.Email, userRegisterRequestModel.Email, StringComparison.CurrentCultureIgnoreCase))
+                throw new ConflictException("Email Already Exits");
 
             // first generate Salt
             var salt = _cryptoService.GenerateRandomSalt();
@@ -134,11 +133,8 @@ namespace MovieShop.Infrastructure.Services
 
             var createdUser = await _userRepository.AddAsync(user);
 
-            if (createdUser != null && createdUser.Id > 0)
-            {
-                return true;
-            }
-            return false;
+            var response = _mapper.Map<UserRegisterResponseModel>(createdUser);
+            return response;
         }
 
         public async Task<LoginResponseModel> ValidateUser(string email, string password)
