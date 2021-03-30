@@ -18,6 +18,7 @@ using MovieShop.Core.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using AutoMapper;
 using MovieShop.Infrastructure.Helpers;
+using MovieShop.MVC.Middlewares;
 
 namespace MovieShop.MVC
 {
@@ -74,6 +75,9 @@ namespace MovieShop.MVC
         //
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            app.UseCustomMiddleware();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
